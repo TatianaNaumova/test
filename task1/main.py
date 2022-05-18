@@ -1,35 +1,19 @@
 import sys
-import json
 
-def fill_values(tests, values):
-  if "values" in tests.keys():
-    for test in tests["values"]:
-      fill_values(test, values)
+if __name__ == "__main__":
+  n = int(sys.argv[1])
+  m = int(sys.argv[2])
+
+  arr = [x for x in range(1, n + 1)]
   
-  id = tests["id"]
+  path = ""
+  index_first = 0
+  index_last = m - 1
   
-  for result in values["values"]:
-    if result["id"] == id:
-      tests["value"] = result["value"]
+  while True:
+    if arr[0] == arr[index_last]:
+      print(path + str(arr[index_first]))
       break
-  return tests
-
-
-if __name__ == "__main__": 
-  tests_filename = sys.argv[1]
-  values_filename = sys.argv[2]
-  
-  tests_file = open(tests_filename, "r")
-  tests_dict = json.load(tests_file)
-  tests_file.close()
-  
-  values_file = open(values_filename, "r")
-  values_dict = json.load(values_file)
-  values_file.close()
-  
-  result_dict = fill_values(tests_dict, values_dict)
-  result_json = json.dumps(result_dict)
-  
-  result_file = open("result.json", "w")
-  result_file.write(result_json)
-  result_file.close()   
+    path += str(arr[index_first])
+    index_first = (index_first + m - 1) % n
+    index_last = (index_first + m - 1) % n 
